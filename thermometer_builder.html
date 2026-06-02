@@ -818,7 +818,11 @@ function launchConfetti() {
           // Note: serialize synchronously — don't wait on requestAnimationFrame,
           // which is paused when the tab isn't visible. The class change above
           // doesn't affect layout, so heights are already correct.
-          var h = Math.ceil(d.documentElement.scrollHeight || d.body.scrollHeight);
+          // Measure the widget itself (the blue area), NOT documentElement
+          // scrollHeight — that returns the tall offscreen iframe's viewport
+          // height and would pad the PNG with blank space below.
+          var widget = d.querySelector(".widget-container");
+          var h = Math.ceil(widget ? widget.getBoundingClientRect().height : d.body.scrollHeight);
           var xml = new XMLSerializer().serializeToString(d.documentElement);
           var svg = '<svg xmlns="http://www.w3.org/2000/svg" width="' + W + '" height="' + h + '">' +
             '<foreignObject x="0" y="0" width="' + W + '" height="' + h + '">' + xml + '</foreignObject></svg>';
