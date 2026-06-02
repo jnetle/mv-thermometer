@@ -193,6 +193,21 @@
 
   .export-block { margin-top: 22px; }
   .export-block:first-of-type { margin-top: 0; }
+  /* two side-by-side purpose groups (embed vs picture) */
+  .cta-cols { display: flex; gap: 18px; flex-wrap: wrap; align-items: stretch; }
+  .cta-cols > .cta-group {
+    flex: 1 1 300px;
+    min-width: 0;
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 16px 16px 18px;
+    background: #fffdf7;
+  }
+  .cta-group > .eh {
+    font-weight: 700; font-size: .98rem; margin: 0 0 6px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .cta-group > .ed { color: var(--muted); font-size: .86rem; margin: 0 0 12px; }
   .export-block > .eh {
     font-weight: 700;
     font-size: .95rem;
@@ -319,34 +334,49 @@
     <iframe class="preview-frame" id="preview-frame" title="Thermometer preview" scrolling="no"></iframe>
     <div class="replay">
       <button class="btn btn-ghost btn-sm" id="btn-replay">↻ Replay animation</button>
-      <button class="btn btn-ghost btn-sm" id="btn-save-img">💾 Save as image</button>
-      <button class="btn btn-ghost btn-sm" id="btn-copy-img">📋 Copy image</button>
-      <span class="copied-tag" id="img-tag"></span>
     </div>
   </section>
 
   <!-- ============ EXPORT ============ -->
   <section class="card" id="export" style="grid-column: 1 / -1;">
-    <h2><span class="step-num">3</span> Put it on your website</h2>
-    <p class="sub">The widget is already hosted on GitHub. Just copy the embed code below and paste it into your site. To change the numbers later, come back here, copy the new code, and swap the one line — no re-uploading.</p>
+    <h2><span class="step-num">3</span> Put it on your website (or save an image)</h2>
+    <p class="sub">Two ways to use your thermometer: embed the <strong>live</strong> widget on a website, or save it as a <strong>picture</strong>. Pick whichever fits — they're side by side below.</p>
 
     <div class="export-block">
-      <p class="eh">🔗 Embed code <span class="pill">this is all you need</span></p>
-      <p class="ed">This points at the hosted widget, carries your numbers in the link, and auto-sizes to fit (responsive, no scrollbars). Copy the <em>whole</em> block and paste it into a Wix or Squarespace embed / HTML block.</p>
-      <div class="btn-row" style="margin-bottom:10px">
-        <button class="btn btn-primary" id="btn-copy-embed">Copy embed code</button>
-        <span class="copied-tag" id="embed-tag">Copied ✓</span>
-      </div>
-      <textarea class="code" id="out-embed" rows="12" readonly spellcheck="false"></textarea>
-      <details class="fold">
-        <summary>Advanced: hosted file link</summary>
-        <div class="body">
-          <label class="field" style="margin-bottom:0">
-            <span class="lbl">Hosted thermometer file URL <span class="hint">— already set; only change if you host the file somewhere else</span></span>
-            <input type="url" id="in-url" value="https://jnetle.github.io/mv-thermometer/fundraising_thermometer.html" autocomplete="off" spellcheck="false">
-          </label>
+      <div class="cta-cols">
+
+        <!-- Purpose A: embed the live widget -->
+        <div class="cta-group">
+          <p class="eh">🔗 Embed on a website</p>
+          <p class="ed">The live, auto-updating widget for a Wix or Squarespace page. Copy the <em>whole</em> block below and paste it into an embed / HTML block.</p>
+          <div class="btn-row" style="margin-bottom:10px">
+            <button class="btn btn-primary" id="btn-copy-embed">Copy embed code</button>
+            <span class="copied-tag" id="embed-tag">Copied ✓</span>
+          </div>
+          <textarea class="code" id="out-embed" rows="10" readonly spellcheck="false"></textarea>
+          <details class="fold">
+            <summary>Advanced: hosted file link</summary>
+            <div class="body">
+              <label class="field" style="margin-bottom:0">
+                <span class="lbl">Hosted thermometer file URL <span class="hint">— already set; only change if you host the file somewhere else</span></span>
+                <input type="url" id="in-url" value="https://jnetle.github.io/mv-thermometer/fundraising_thermometer.html" autocomplete="off" spellcheck="false">
+              </label>
+            </div>
+          </details>
         </div>
-      </details>
+
+        <!-- Purpose B: save a static picture -->
+        <div class="cta-group">
+          <p class="eh">🖼️ Save as a picture</p>
+          <p class="ed">A static image (PNG) of the current numbers — handy for newsletters, flyers, or social posts. This is not live; it won't update on its own.</p>
+          <div class="btn-row">
+            <button class="btn btn-primary" id="btn-save-img">💾 Save image</button>
+            <button class="btn btn-ghost" id="btn-copy-img">📋 Copy image</button>
+            <span class="copied-tag" id="img-tag"></span>
+          </div>
+        </div>
+
+      </div>
     </div>
 
     <div class="export-block guide">
