@@ -815,28 +815,27 @@ function launchConfetti() {
             var el = d.getElementById("hc" + i);
             if (el) { el.classList.remove("flash"); el.classList.add("filled"); }
           }
-          requestAnimationFrame(function () {
-            try {
-              var h = Math.ceil(d.documentElement.scrollHeight || d.body.scrollHeight);
-              var xml = new XMLSerializer().serializeToString(d.documentElement);
-              var svg = '<svg xmlns="http://www.w3.org/2000/svg" width="' + W + '" height="' + h + '">' +
-                '<foreignObject x="0" y="0" width="' + W + '" height="' + h + '">' + xml + '</foreignObject></svg>';
-              var img = new Image();
-              img.onload = function () {
-                var c = document.createElement("canvas");
-                c.width = W * scale; c.height = h * scale;
-                var ctx = c.getContext("2d");
-                ctx.scale(scale, scale);
-                ctx.drawImage(img, 0, 0);
-                c.toBlob(function (b) {
-                  frame.remove();
-                  b ? resolve(b) : reject(new Error("toBlob returned null"));
-                }, "image/png");
-              };
-              img.onerror = function () { frame.remove(); reject(new Error("could not render the snapshot")); };
-              img.src = "data:image/svg+xml;charset=utf-8," + encodeURIComponent(svg);
-            } catch (e) { frame.remove(); reject(e); }
-          });
+          // Note: serialize synchronously — don't wait on requestAnimationFrame,
+          // which is paused when the tab isn't visible. The class change above
+          // doesn't affect layout, so heights are already correct.
+          var h = Math.ceil(d.documentElement.scrollHeight || d.body.scrollHeight);
+          var xml = new XMLSerializer().serializeToString(d.documentElement);
+          var svg = '<svg xmlns="http://www.w3.org/2000/svg" width="' + W + '" height="' + h + '">' +
+            '<foreignObject x="0" y="0" width="' + W + '" height="' + h + '">' + xml + '</foreignObject></svg>';
+          var img = new Image();
+          img.onload = function () {
+            var c = document.createElement("canvas");
+            c.width = W * scale; c.height = h * scale;
+            var ctx = c.getContext("2d");
+            ctx.scale(scale, scale);
+            ctx.drawImage(img, 0, 0);
+            c.toBlob(function (b) {
+              frame.remove();
+              b ? resolve(b) : reject(new Error("toBlob returned null"));
+            }, "image/png");
+          };
+          img.onerror = function () { frame.remove(); reject(new Error("could not render the snapshot")); };
+          img.src = "data:image/svg+xml;charset=utf-8," + encodeURIComponent(svg);
         } catch (e) { frame.remove(); reject(e); }
       };
       document.body.appendChild(frame);
