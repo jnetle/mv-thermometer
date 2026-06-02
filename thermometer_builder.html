@@ -322,70 +322,71 @@
   <!-- ============ EXPORT ============ -->
   <section class="card" id="export" style="grid-column: 1 / -1;">
     <h2><span class="step-num">3</span> Put it on your website</h2>
-    <p class="sub">Recommended path for a non-technical maintainer: download the file, drop it on free hosting, paste one small embed line. Details below.</p>
+    <p class="sub">The widget is already hosted on GitHub. Just copy the embed code below and paste it into your site. To change the numbers later, come back here, copy the new code, and swap the one line — no re-uploading.</p>
 
     <div class="export-block">
-      <p class="eh">⬇️ Download the widget file <span class="pill">recommended</span></p>
-      <p class="ed">This is the finished, self-contained widget. You'll upload it to free hosting (see the guide below).</p>
-      <div class="btn-row">
-        <button class="btn btn-primary" id="btn-download">Download fundraising_thermometer.html</button>
-        <span class="copied-tag" id="dl-tag">Downloaded ✓</span>
+      <p class="eh">🔗 Embed code <span class="pill">this is all you need</span></p>
+      <p class="ed">This is one line that points at the hosted widget and carries your numbers in the link. Paste it into a Wix or Squarespace embed / HTML block.</p>
+      <div class="btn-row" style="margin-bottom:10px">
+        <button class="btn btn-primary" id="btn-copy-embed">Copy embed code</button>
+        <span class="copied-tag" id="embed-tag">Copied ✓</span>
       </div>
+      <textarea class="code" id="out-embed" rows="3" readonly spellcheck="false"></textarea>
+      <details class="fold">
+        <summary>Advanced: hosted file link</summary>
+        <div class="body">
+          <label class="field" style="margin-bottom:0">
+            <span class="lbl">Hosted thermometer file URL <span class="hint">— already set; only change if you host the file somewhere else</span></span>
+            <input type="url" id="in-url" value="https://jnetle.github.io/mv-thermometer/fundraising_thermometer.html" autocomplete="off" spellcheck="false">
+          </label>
+        </div>
+      </details>
     </div>
 
-    <div class="export-block">
-      <p class="eh">📋 Or copy the full HTML</p>
-      <p class="ed">The complete code for the widget. Works if your website builder lets you paste raw HTML (see notes below for Wix vs Squarespace).</p>
-      <div class="btn-row" style="margin-bottom:10px">
-        <button class="btn btn-ghost" id="btn-copy-html">Copy full HTML</button>
-        <span class="copied-tag" id="html-tag">Copied ✓</span>
-      </div>
+    <div class="export-block guide">
       <details class="fold">
-        <summary>Show the HTML code</summary>
+        <summary>📖 Step-by-step: how to embed &amp; update (Wix or Squarespace)</summary>
         <div class="body">
-          <textarea class="code" id="out-html" rows="12" readonly spellcheck="false"></textarea>
+          <h4>Easiest path for both (recommended)</h4>
+          <ol>
+            <li>Set your School Year, Goal, and Raised numbers above.</li>
+            <li>Click <strong>Copy embed code</strong>.</li>
+            <li>In your website editor, add an <strong>Embed / HTML block</strong> and paste it. Done.</li>
+            <li><strong>To update later:</strong> change your numbers here, click <strong>Copy embed code</strong> again, and replace the old <code class="inline">&lt;iframe&gt;</code> line in your site's embed block. Nothing to upload — the numbers travel in the link.</li>
+          </ol>
+
+          <h4>Squarespace <span class="pill">needs Core plan ($23/mo)</span></h4>
+          <ol>
+            <li>The cheapest <em>Basic</em> plan will <strong>not run iframes</strong>. You need the <strong>Core</strong> plan or higher.</li>
+            <li>Use an <strong>Embed Block</strong> and paste the embed code.</li>
+          </ol>
+
+          <h4>Wix <span class="pill">free plan works</span></h4>
+          <ol>
+            <li>Wix's free plan can show the widget (with small Wix ads). The paid <em>Light</em> plan (~$17/mo) removes ads and adds your own domain.</li>
+            <li>Add an <strong>Embed → Embed a Code / HTML iframe</strong> element and paste the embed code. Wix requires <strong>https</strong> links (the hosted link already is).</li>
+          </ol>
         </div>
       </details>
     </div>
 
     <div class="export-block">
-      <p class="eh">🔗 Embed snippet (after hosting)</p>
-      <p class="ed">Once your file is hosted, paste your link below — this gives you the one line to embed on your site.</p>
-      <label class="field" style="margin-bottom:10px">
-        <span class="lbl">Your hosted link <span class="hint">— e.g. https://mv-thermometer.netlify.app</span></span>
-        <input type="url" id="in-url" placeholder="https://your-site.netlify.app" autocomplete="off" spellcheck="false">
-      </label>
-      <div class="btn-row" style="margin-bottom:10px">
-        <button class="btn btn-ghost" id="btn-copy-embed">Copy embed code</button>
-        <span class="copied-tag" id="embed-tag">Copied ✓</span>
-      </div>
-      <textarea class="code" id="out-embed" rows="3" readonly spellcheck="false"></textarea>
-    </div>
-
-    <div class="export-block guide">
       <details class="fold">
-        <summary>📖 Step-by-step: how to host &amp; embed (Wix or Squarespace)</summary>
+        <summary>⚙️ Advanced: re-host the file or change its built-in defaults</summary>
         <div class="body">
-          <h4>Easiest path for both (recommended)</h4>
-          <ol>
-            <li>Click <strong>Download</strong> above to save <code class="inline">fundraising_thermometer.html</code>.</li>
-            <li>Go to <strong>app.netlify.com/drop</strong> (free, no account needed to start) and drag the file onto the page. Netlify gives you a link like <code class="inline">https://something.netlify.app</code>.</li>
-            <li>Paste that link in the <strong>Embed snippet</strong> box above and click <strong>Copy embed code</strong>.</li>
-            <li>In your website editor, add an <strong>Embed / HTML block</strong> and paste the embed code.</li>
-            <li><strong>To update later:</strong> change your numbers here, download again, and drag the new file onto Netlify (same site). The embed link stays the same — nothing else to change.</li>
-          </ol>
-
-          <h4>Squarespace <span class="pill">needs Core plan ($23/mo)</span></h4>
-          <ol>
-            <li>The cheapest <em>Basic</em> plan will <strong>not run the widget's animation</strong> (no JavaScript/iframes). You need the <strong>Core</strong> plan or higher.</li>
-            <li>Use an <strong>Embed Block</strong> and paste the embed code (the hosted-link path above). Pasting the full raw HTML is capped at ~400KB and is more fragile, so the hosted link is preferred.</li>
-          </ol>
-
-          <h4>Wix <span class="pill">free plan works</span></h4>
-          <ol>
-            <li>Wix's free plan can run the widget (it shows small Wix ads). The paid <em>Light</em> plan (~$17/mo) removes ads and adds your own domain.</li>
-            <li>Add an <strong>Embed → Embed a Code / HTML iframe</strong> element. You can paste the full HTML, but the hosted link (above) is more reliable and easier to update. Wix requires <strong>https</strong> links.</li>
-          </ol>
+          <p class="ed" style="margin-top:6px">Most people never need this. Use it only to host the widget somewhere new, or to change the numbers it shows when opened with no link parameters (see HOSTING.md).</p>
+          <div class="btn-row" style="margin-bottom:10px">
+            <button class="btn btn-ghost" id="btn-download">Download fundraising_thermometer.html</button>
+            <span class="copied-tag" id="dl-tag">Downloaded ✓</span>
+            <button class="btn btn-ghost" id="btn-copy-html">Copy full HTML</button>
+            <span class="copied-tag" id="html-tag">Copied ✓</span>
+          </div>
+          <details class="fold">
+            <summary>Show the full HTML code</summary>
+            <div class="body">
+              <textarea class="code" id="out-html" rows="12" readonly spellcheck="false"></textarea>
+            </div>
+          </details>
         </div>
       </details>
     </div>
@@ -546,9 +547,16 @@
 &lt;/div&gt;
 &lt;script&gt;
 // ─────────────────────────────────────────────
-const SCHOOL_YEAR    = "__SCHOOL_YEAR__";
-const GOAL_AMOUNT    = __GOAL_AMOUNT__;
-const CURRENT_AMOUNT = __CURRENT_AMOUNT__;
+// Values come from URL query params if present, else these defaults:
+//   ?year=2025-26&amp;goal=150000&amp;current=32500
+const _params = new URLSearchParams(location.search);
+const _num = (key, dflt) =&gt; {
+  const v = _params.get(key);
+  return (v !== null &amp;&amp; v.trim() !== '' &amp;&amp; !isNaN(Number(v))) ? Number(v) : dflt;
+};
+const SCHOOL_YEAR    = _params.get('year') || "__SCHOOL_YEAR__";
+const GOAL_AMOUNT    = _num('goal', __GOAL_AMOUNT__);
+const CURRENT_AMOUNT = _num('current', __CURRENT_AMOUNT__);
 // ─────────────────────────────────────────────
 const TOTAL = 40;
 const pct   = Math.min(1, Math.max(0, CURRENT_AMOUNT / GOAL_AMOUNT));
@@ -696,9 +704,15 @@ function launchConfetti() {
     refreshEmbed();
   }
   function refreshEmbed() {
-    var url = inUrl.value.trim() || "https://YOUR-SITE.netlify.app";
+    var s = getState();
+    var base = inUrl.value.trim() ||
+      "https://jnetle.github.io/mv-thermometer/fundraising_thermometer.html";
+    var src = base +
+      "?year=" + encodeURIComponent(s.year) +
+      "&goal=" + s.goal +
+      "&current=" + s.current;
     $("out-embed").value =
-      '<iframe src="' + url + '" ' +
+      '<iframe src="' + src + '" ' +
       'style="width:100%;max-width:680px;height:900px;border:0;" ' +
       'title="Fundraising Thermometer" loading="lazy"></iframe>';
   }

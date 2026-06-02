@@ -4,17 +4,30 @@ A self-contained HTML fundraising thermometer widget for Mira Vista School's ann
 
 **Full context lives in [`CONTEXT.md`](./CONTEXT.md)** — read it for workflow, image pipeline, and Squarespace deployment details.
 
-## The one file that matters
-`fundraising_thermometer.html` — single self-contained file (~228 KB). The background image is embedded as base64 PNG. Open in any browser to preview.
+## The files that matter
+- `fundraising_thermometer.html` — the self-contained widget (~235 KB; background image is base64 PNG). Open in any browser to preview.
+- `thermometer_builder.html` — a no-code UI to set the numbers, preview, and copy an embed snippet. Embeds a tokenized snapshot of the widget in a hidden `<textarea id="tpl">`.
+- `HOSTING.md` — hosting + update instructions for the non-technical maintainer.
+
+Hosted on GitHub Pages, repo `jnetle/mv-thermometer` (public):
+- Widget (embed this): https://jnetle.github.io/mv-thermometer/fundraising_thermometer.html
+- Builder (control panel): https://jnetle.github.io/mv-thermometer/thermometer_builder.html
 
 ## Update fundraising progress
-Edit these three constants near the bottom of the `<script>` tag:
-```js
-const SCHOOL_YEAR    = "2025-26";
-const GOAL_AMOUNT    = 150000;
-const CURRENT_AMOUNT = 32500;
+**Preferred (no re-upload):** the widget reads its values from URL query params, so updating is just changing the embed link. Open the builder, set the numbers, **Copy embed code**, and replace the `<iframe>` line on the website. The link looks like:
 ```
-Save and re-upload to Netlify. No other changes needed.
+…/fundraising_thermometer.html?year=2025-26&goal=150000&current=32500
+```
+Missing/blank/non-numeric params fall back to the baked-in defaults below.
+
+**To change the baked-in defaults** (shown when opened with no params), edit these three constants near the top of the `<script>` tag and re-upload to GitHub Pages:
+```js
+const SCHOOL_YEAR    = _params.get('year') || "2025-26";
+const GOAL_AMOUNT    = _num('goal', 150000);
+const CURRENT_AMOUNT = _num('current', 32500);
+```
+
+> If you change the widget itself, regenerate the builder's `<textarea id="tpl">` snapshot (read widget → tokenize the 3 default literals → HTML-escape `& < >` → splice into the textarea).
 
 ## Conventions
 - Never re-use old base64 blobs — always regenerate from `bg_fixed.png` source
@@ -24,7 +37,7 @@ Save and re-upload to Netlify. No other changes needed.
 - All PNG edits start from `bg_fixed.png` (logo-fixed source); never from intermediate outputs
 
 ## Status
-Widget is complete and production-ready. Squarespace deployment via Netlify Drop iframe is the recommended path.
+Complete and production-ready. Hosted on GitHub Pages; embedded via an iframe whose link carries the numbers as query params. See `HOSTING.md`.
 
 ## Tools
-Python 3 + Pillow (image surgery) · cairosvg (SVG→PNG) · HTML/CSS/JS (widget) · Netlify Drop (hosting)
+Python 3 + Pillow (image surgery) · cairosvg (SVG→PNG) · HTML/CSS/JS (widget + builder) · GitHub Pages (hosting)

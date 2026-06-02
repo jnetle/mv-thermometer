@@ -67,18 +67,24 @@ Every widget rebuild applies these transformations to `bg_fixed.png` in order:
 
 ---
 
-## Squarespace deployment
-**Recommended:** Netlify Drop
-1. Go to app.netlify.com/drop
-2. Drag `fundraising_thermometer.html` into the browser
-3. Copy the generated URL
-4. In Squarespace: add a **Code** block, paste:
-   ```html
-   <iframe src="YOUR_NETLIFY_URL" width="100%" height="950" frameborder="0" scrolling="no" style="display:block;"></iframe>
-   ```
-5. To update: drag the new HTML file to Netlify — same URL is preserved
+## Deployment (current: GitHub Pages + query params)
+Hosted on GitHub Pages, repo `jnetle/mv-thermometer` (public):
+- Widget: https://jnetle.github.io/mv-thermometer/fundraising_thermometer.html
+- Builder: https://jnetle.github.io/mv-thermometer/thermometer_builder.html
 
-**Alternative:** Paste HTML directly into a Squarespace Code block (requires Business plan or above).
+The widget reads its values from URL query params, so numbers are changed via the embed **link**, not by re-uploading:
+```
+…/fundraising_thermometer.html?year=2025-26&goal=150000&current=32500
+```
+Missing/blank/non-numeric params fall back to the baked-in default constants. Param read logic lives near the top of the `<script>`: `new URLSearchParams(location.search)` + a `_num(key, dflt)` helper. `SCHOOL_YEAR` is rendered only via `textContent` (no HTML injection); amounts go through `Number()`.
+
+**Maintainer flow (non-technical):** open the builder → set numbers → **Copy embed code** → paste/replace the `<iframe>` line in a Wix or Squarespace embed block. Full steps in `HOSTING.md`.
+
+**Builder snapshot:** `thermometer_builder.html` embeds a tokenized copy of the widget in a hidden `<textarea id="tpl">` (the 3 default literals replaced by `__SCHOOL_YEAR__` / `__GOAL_AMOUNT__` / `__CURRENT_AMOUNT__`, content HTML-escaped). If the widget changes, regenerate that snapshot.
+
+**Plan notes:** Squarespace needs Core ($23/mo) to run iframes; Wix free works (with ads). Pasting the full ~235 KB HTML is a fallback only.
+
+**Legacy:** earlier the recommended path was Netlify Drop with constants edited in-file. Still works for changing the baked defaults, but query params are now preferred.
 
 ---
 
@@ -95,8 +101,8 @@ Every widget rebuild applies these transformations to `bg_fixed.png` in order:
 **Complete and production-ready as of 2026-06-02.**
 
 Outstanding / future:
-- If the school year changes, update `SCHOOL_YEAR` constant
-- If goal changes, update `GOAL_AMOUNT`
+- Routine number updates: done via the builder's embed link (query params) — no constant edits needed
+- To change the baked-in defaults: edit `SCHOOL_YEAR` / `GOAL_AMOUNT` / `CURRENT_AMOUNT`, re-upload to GitHub Pages, and regenerate the builder snapshot
 - If design needs refreshing, rerun the image pipeline from `bg_fixed.png` with updated parameters
 
 ---
@@ -104,7 +110,9 @@ Outstanding / future:
 ## Key files
 | File | Location | Notes |
 |---|---|---|
-| `fundraising_thermometer.html` | MV Thermometer folder | The deliverable — edit constants to update |
+| `fundraising_thermometer.html` | MV Thermometer folder | The widget — reads `?year=&goal=&current=`, falls back to baked defaults |
+| `thermometer_builder.html` | MV Thermometer folder | No-code UI: set numbers, preview, copy embed snippet (holds tokenized widget snapshot) |
+| `HOSTING.md` | MV Thermometer folder | Hosting + update instructions for the maintainer |
 | `CLAUDE.md` | MV Thermometer folder | Quick-start reference |
 | `CONTEXT.md` | MV Thermometer folder | This file |
 | `Mira Vista Annual Fundraising.svg` | Uploaded by Jeanette | Original source design (1.5 MB) |

@@ -11,31 +11,53 @@ This project is hosted free on **GitHub Pages**. Two files live in the repo:
 
 ---
 
-## Embedding it on a website (Wix or Squarespace)
+## How the numbers work: query parameters
 
-1. Open the **builder** (link above) and bookmark it.
-2. In the builder's **"Embed snippet"** box, paste the widget URL:
-   `https://jnetle.github.io/mv-thermometer/fundraising_thermometer.html`
-3. Click **Copy embed code** — you get one `<iframe>` line.
-4. In your site editor, add an **Embed / HTML block** and paste it.
+The widget reads its values from the **link itself**, like this:
 
-**Plan notes:**
-- **Squarespace** — needs the **Core plan ($23/mo)** or higher; the cheapest Basic plan won't run the animation. Use an *Embed Block*.
-- **Wix** — the **free plan works** (shows small Wix ads); paid *Light* (~$17/mo) removes them. Use an *Embed → Embed a Code* element. Must be an `https` link (GitHub Pages already is).
+```
+https://jnetle.github.io/mv-thermometer/fundraising_thermometer.html?year=2025-26&goal=150000&current=32500
+```
 
-The embed link never changes, so once it's in, you never touch your website again.
+- `year` — the school year text (e.g. `2025-26`)
+- `goal` — the goal dollar amount, digits only (e.g. `150000`)
+- `current` — the amount raised so far, digits only (e.g. `32500`)
+
+If a parameter is missing, the widget falls back to the defaults baked into the file. **This means you change the numbers by changing the link, not by re-uploading the file.**
 
 ---
 
-## Updating the numbers (e.g. new year or new total)
+## Embedding it on a website (Wix or Squarespace)
 
-1. Open the **builder**, type the new School Year / Goal / Raised amounts, watch the preview.
-2. Click **Download** to save a fresh `fundraising_thermometer.html`.
-3. Go to the repo on github.com: **`jnetle/mv-thermometer`**.
-4. Click **Add file → Upload files**, drag in the new `fundraising_thermometer.html` (it replaces the old one), then **Commit changes**.
-5. Wait ~1 minute. The live widget updates automatically. (If you don't see it, hard-refresh: Cmd+Shift+R.)
+1. Open the **builder** (link above) and bookmark it.
+2. Type your School Year / Goal / Raised numbers. The preview updates as you type.
+3. Click **Copy embed code** — you get one `<iframe>` line whose link already contains your numbers.
+4. In your site editor, add an **Embed / HTML block** and paste it.
 
-That's it — no website edits, no code.
+**Plan notes:**
+- **Squarespace** — needs the **Core plan ($23/mo)** or higher; the cheapest Basic plan won't run iframes. Use an *Embed Block*.
+- **Wix** — the **free plan works** (shows small Wix ads); paid *Light* (~$17/mo) removes them. Use an *Embed → Embed a Code* element. Must be an `https` link (GitHub Pages already is).
+
+---
+
+## Updating the numbers (e.g. new total)
+
+No file uploads needed — the numbers live in the embed link:
+
+1. Open the **builder**, type the new School Year / Goal / Raised amounts.
+2. Click **Copy embed code**.
+3. In your website editor, open the embed block and **replace the old `<iframe>` line** with the new one.
+4. Save. Done — the widget shows the new numbers immediately.
+
+---
+
+## Advanced: changing the built-in defaults (optional)
+
+The defaults are what the widget shows if it's ever opened with **no** parameters. You rarely need to touch these, but to change them:
+
+1. Open the **builder**, set the numbers, and use **Advanced → Download** to save a fresh `fundraising_thermometer.html`.
+2. On github.com at **`jnetle/mv-thermometer`**, click **Add file → Upload files**, drag the new file in (replaces the old one), and **Commit changes**.
+3. Wait ~1 minute (hard-refresh with Cmd+Shift+R if needed).
 
 ---
 

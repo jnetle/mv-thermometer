@@ -145,9 +145,16 @@
 </div>
 <script>
 // ─────────────────────────────────────────────
-const SCHOOL_YEAR    = "2025-26";
-const GOAL_AMOUNT    = 150000;
-const CURRENT_AMOUNT = 32500;
+// Values come from URL query params if present, else these defaults:
+//   ?year=2025-26&goal=150000&current=32500
+const _params = new URLSearchParams(location.search);
+const _num = (key, dflt) => {
+  const v = _params.get(key);
+  return (v !== null && v.trim() !== '' && !isNaN(Number(v))) ? Number(v) : dflt;
+};
+const SCHOOL_YEAR    = _params.get('year') || "2025-26";
+const GOAL_AMOUNT    = _num('goal', 150000);
+const CURRENT_AMOUNT = _num('current', 32500);
 // ─────────────────────────────────────────────
 const TOTAL = 40;
 const pct   = Math.min(1, Math.max(0, CURRENT_AMOUNT / GOAL_AMOUNT));
