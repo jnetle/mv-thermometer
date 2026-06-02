@@ -795,17 +795,6 @@ function launchConfetti() {
     t.classList.add("show");
     setTimeout(function () { t.classList.remove("show"); }, 2200);
   }
-  // Trace a rounded-rectangle path (manual arcs, for broad browser support).
-  function roundRectPath(ctx, x, y, w, h, r) {
-    r = Math.min(r, w / 2, h / 2);
-    ctx.beginPath();
-    ctx.moveTo(x + r, y);
-    ctx.arcTo(x + w, y,     x + w, y + h, r);
-    ctx.arcTo(x + w, y + h, x,     y + h, r);
-    ctx.arcTo(x,     y + h, x,     y,     r);
-    ctx.arcTo(x,     y,     x + w, y,     r);
-    ctx.closePath();
-  }
   // Render the widget (final, fully-filled state) to a PNG Blob with no
   // external libraries: serialize it into an SVG <foreignObject> and draw
   // that onto a canvas. Returns a Promise<Blob>.
@@ -826,6 +815,10 @@ function launchConfetti() {
             var el = d.getElementById("hc" + i);
             if (el) { el.classList.remove("flash"); el.classList.add("filled"); }
           }
+          // Square off the panel's rounded bottom corners so the exported
+          // image is a clean solid rectangle (no transparent corners).
+          var ip = d.querySelector(".info-panel");
+          if (ip) ip.style.borderRadius = "0";
           // Note: serialize synchronously — don't wait on requestAnimationFrame,
           // which is paused when the tab isn't visible. The class change above
           // doesn't affect layout, so heights are already correct.
@@ -843,10 +836,6 @@ function launchConfetti() {
             c.width = W * scale; c.height = h * scale;
             var ctx = c.getContext("2d");
             ctx.scale(scale, scale);
-            // Clip to a rounded rectangle so all four corners are rounded
-            // (matches the info panel's 16px radius); corners stay transparent.
-            roundRectPath(ctx, 0, 0, W, h, 16);
-            ctx.clip();
             ctx.drawImage(img, 0, 0);
             c.toBlob(function (b) {
               frame.remove();
