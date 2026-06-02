@@ -153,11 +153,14 @@
   /* preview */
   .preview-frame {
     width: 100%;
+    max-width: 480px;
+    margin: 0 auto;
     border: 1px solid var(--line);
     border-radius: 12px;
     background: #fff;
     display: block;
-    min-height: 760px;
+    height: 820px;        /* initial; JS sizes it to the widget's exact height */
+    overflow: hidden;
   }
   .replay {
     margin-top: 12px;
@@ -313,7 +316,7 @@
   <section class="card" id="preview">
     <h2><span class="step-num">2</span> Preview</h2>
     <p class="sub">This is exactly what visitors will see, animation and all.</p>
-    <iframe class="preview-frame" id="preview-frame" title="Thermometer preview"></iframe>
+    <iframe class="preview-frame" id="preview-frame" title="Thermometer preview" scrolling="no"></iframe>
     <div class="replay">
       <button class="btn btn-ghost btn-sm" id="btn-replay">↻ Replay animation</button>
     </div>
@@ -326,12 +329,12 @@
 
     <div class="export-block">
       <p class="eh">🔗 Embed code <span class="pill">this is all you need</span></p>
-      <p class="ed">This is one line that points at the hosted widget and carries your numbers in the link. Paste it into a Wix or Squarespace embed / HTML block.</p>
+      <p class="ed">This points at the hosted widget, carries your numbers in the link, and auto-sizes to fit (responsive, no scrollbars). Copy the <em>whole</em> block and paste it into a Wix or Squarespace embed / HTML block.</p>
       <div class="btn-row" style="margin-bottom:10px">
         <button class="btn btn-primary" id="btn-copy-embed">Copy embed code</button>
         <span class="copied-tag" id="embed-tag">Copied ✓</span>
       </div>
-      <textarea class="code" id="out-embed" rows="3" readonly spellcheck="false"></textarea>
+      <textarea class="code" id="out-embed" rows="12" readonly spellcheck="false"></textarea>
       <details class="fold">
         <summary>Advanced: hosted file link</summary>
         <div class="body">
@@ -352,7 +355,7 @@
             <li>Set your School Year, Goal, and Raised numbers above.</li>
             <li>Click <strong>Copy embed code</strong>.</li>
             <li>In your website editor, add an <strong>Embed / HTML block</strong> and paste it. Done.</li>
-            <li><strong>To update later:</strong> change your numbers here, click <strong>Copy embed code</strong> again, and replace the old <code class="inline">&lt;iframe&gt;</code> line in your site's embed block. Nothing to upload — the numbers travel in the link.</li>
+            <li><strong>To update later:</strong> change your numbers here, click <strong>Copy embed code</strong> again, and replace the old embed code in your site's embed block. Nothing to upload — the numbers travel in the link.</li>
           </ol>
 
           <h4>Squarespace <span class="pill">needs Core plan ($23/mo)</span></h4>
@@ -624,6 +627,23 @@ function launchConfetti() {
     if(alive)requestAnimationFrame(tick);else ctx.clearRect(0,0,canvas.width,canvas.height);
   })();
 }
+
+// ── Auto-height: tell the parent page how tall we are, so an embedding
+//    iframe can size itself exactly (responsive, no scrollbars). ──
+(function () {
+  function reportHeight() {
+    var h = Math.ceil(Math.max(
+      document.body.scrollHeight, document.documentElement.scrollHeight,
+      document.body.offsetHeight, document.documentElement.offsetHeight
+    ));
+    try { parent.postMessage({ mvThermometerHeight: h }, '*'); } catch (e) {}
+  }
+  window.addEventListener('load', reportHeight);
+  window.addEventListener('resize', reportHeight);
+  if (window.ResizeObserver) { new ResizeObserver(reportHeight).observe(document.body); }
+  // catch reflows from web-font load and the fill/confetti animation
+  [50, 300, 800, 1600, 3000].forEach(function (t) { setTimeout(reportHeight, t); });
+})();
 &lt;/script&gt;
 &lt;/body&gt;
 &lt;/html&gt;</textarea>
@@ -698,6 +718,16 @@ function launchConfetti() {
     $("preview-frame").srcdoc = buildHTML();
   }
 
+  // Size any thermometer iframe (preview + future embeds) to the height the
+  // widget reports, so it's responsive with no scrollbars.
+  window.addEventListener("message", function (e) {
+    if (!e.data || typeof e.data.mvThermometerHeight !== "number") return;
+    var pf = $("preview-frame");
+    if (pf && e.source === pf.contentWindow) {
+      pf.style.height = e.data.mvThermometerHeight + "px";
+    }
+  });
+
   // ---- export outputs ----
   function refreshOutputs() {
     $("out-html").value = buildHTML();
@@ -712,9 +742,16 @@ function launchConfetti() {
       "&goal=" + s.goal +
       "&current=" + s.current;
     $("out-embed").value =
-      '<iframe src="' + src + '" ' +
-      'style="width:100%;max-width:680px;height:900px;border:0;" ' +
-      'title="Fundraising Thermometer" loading="lazy"></iframe>';
+      '<iframe class="mv-thermometer-frame" src="' + src + '"\n' +
+      '  title="Fundraising Thermometer" loading="lazy" scrolling="no"\n' +
+      '  style="width:100%;max-width:480px;height:820px;border:0;display:block;margin:0 auto;overflow:hidden;"></iframe>\n' +
+      '<script>\n' +
+      'window.addEventListener("message",function(e){\n' +
+      '  if(!e.data||typeof e.data.mvThermometerHeight!=="number")return;\n' +
+      '  var f=document.querySelectorAll("iframe.mv-thermometer-frame");\n' +
+      '  for(var i=0;i<f.length;i++){if(f[i].contentWindow===e.source){f[i].style.height=e.data.mvThermometerHeight+"px";}}\n' +
+      '});\n' +
+      '<\/script>';
   }
 
   // ---- copy / download ----

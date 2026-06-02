@@ -31,7 +31,7 @@ If a parameter is missing, the widget falls back to the defaults baked into the 
 
 1. Open the **builder** (link above) and bookmark it.
 2. Type your School Year / Goal / Raised numbers. The preview updates as you type.
-3. Click **Copy embed code** — you get one `<iframe>` line whose link already contains your numbers.
+3. Click **Copy embed code** — you get an `<iframe>` (plus a tiny auto-resize script) whose link already contains your numbers. It's responsive and sizes itself to fit, so there are no scrollbars. Copy the **whole** block.
 4. In your site editor, add an **Embed / HTML block** and paste it.
 
 **Plan notes:**
@@ -46,7 +46,7 @@ No file uploads needed — the numbers live in the embed link:
 
 1. Open the **builder**, type the new School Year / Goal / Raised amounts.
 2. Click **Copy embed code**.
-3. In your website editor, open the embed block and **replace the old `<iframe>` line** with the new one.
+3. In your website editor, open the embed block and **replace the old embed code** with the new block.
 4. Save. Done — the widget shows the new numbers immediately.
 
 ---

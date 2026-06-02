@@ -222,6 +222,23 @@ function launchConfetti() {
     if(alive)requestAnimationFrame(tick);else ctx.clearRect(0,0,canvas.width,canvas.height);
   })();
 }
+
+// ── Auto-height: tell the parent page how tall we are, so an embedding
+//    iframe can size itself exactly (responsive, no scrollbars). ──
+(function () {
+  function reportHeight() {
+    var h = Math.ceil(Math.max(
+      document.body.scrollHeight, document.documentElement.scrollHeight,
+      document.body.offsetHeight, document.documentElement.offsetHeight
+    ));
+    try { parent.postMessage({ mvThermometerHeight: h }, '*'); } catch (e) {}
+  }
+  window.addEventListener('load', reportHeight);
+  window.addEventListener('resize', reportHeight);
+  if (window.ResizeObserver) { new ResizeObserver(reportHeight).observe(document.body); }
+  // catch reflows from web-font load and the fill/confetti animation
+  [50, 300, 800, 1600, 3000].forEach(function (t) { setTimeout(reportHeight, t); });
+})();
 </script>
 </body>
 </html>
