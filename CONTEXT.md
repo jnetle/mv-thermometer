@@ -7,8 +7,9 @@ Interactive fundraising thermometer widget for Mira Vista School's annual campai
 ---
 
 ## Goals / targets
-- Embed on miravistaschool.com (Squarespace) as a live progress tracker
-- Staff update progress by editing two JS constants and re-uploading — no coding knowledge needed
+- Embed on the school site (Wix or Squarespace) as a live progress tracker
+- Staff update progress with zero coding: set numbers in the builder, copy the embed code (numbers ride in the URL) — no file edits or re-uploads
+- Responsive: fits any width with no scrollbars; text scales down on small screens
 - Preserve the original poster design as faithfully as possible
 
 ---
@@ -17,7 +18,7 @@ Interactive fundraising thermometer widget for Mira Vista School's annual campai
 - **Source design:** `Mira Vista Annual Fundraising.svg` (original, 1.5 MB — kept for reference only)
 - **Python / Pillow / cairosvg:** SVG→PNG rendering, surgical pixel editing of the background
 - **HTML/CSS/JS:** single-file widget, base64-embedded background PNG
-- **Netlify Drop:** free hosting at a stable URL → Squarespace iframe embed
+- **GitHub Pages:** free hosting at a stable URL (`jnetle/mv-thermometer`) → Wix/Squarespace iframe embed
 
 ---
 
@@ -67,6 +68,12 @@ Every widget rebuild applies these transformations to `bg_fixed.png` in order:
 
 ---
 
+## Responsive behavior
+- **Auto-height (no scrollbars):** a small reporter at the end of the widget `<script>` posts the rendered height to the parent via `postMessage({mvThermometerHeight})` on load/resize/`ResizeObserver` and a few timed ticks (font + animation reflow). The builder preview and the embed snippet listen for it and set the iframe height (matched by `contentWindow`). The iframe is `width:100%; max-width:480px` so it's responsive; height tracks content exactly.
+- **Container-query text:** `.info-panel` is `container-type: inline-size`; `.raised-label`, `.raised-amount`, `.of-goal` size in `cqw` with low `clamp()` floors (`5px / 16px / 6px`) so all three keep scaling on narrow widths instead of freezing. (The widget container itself is `max-width: 480px`.)
+
+---
+
 ## Deployment (current: GitHub Pages + query params)
 Hosted on GitHub Pages, repo `jnetle/mv-thermometer` (public):
 - Widget: https://jnetle.github.io/mv-thermometer/fundraising_thermometer.html
@@ -83,8 +90,6 @@ Missing/blank/non-numeric params fall back to the baked-in default constants. Pa
 **Builder snapshot:** `thermometer_builder.html` embeds a tokenized copy of the widget in a hidden `<textarea id="tpl">` (the 3 default literals replaced by `__SCHOOL_YEAR__` / `__GOAL_AMOUNT__` / `__CURRENT_AMOUNT__`, content HTML-escaped). If the widget changes, regenerate that snapshot.
 
 **Plan notes:** Squarespace needs Core ($23/mo) to run iframes; Wix free works (with ads). Pasting the full ~235 KB HTML is a fallback only.
-
-**Legacy:** earlier the recommended path was Netlify Drop with constants edited in-file. Still works for changing the baked defaults, but query params are now preferred.
 
 ---
 
@@ -112,6 +117,7 @@ Outstanding / future:
 |---|---|---|
 | `fundraising_thermometer.html` | MV Thermometer folder | The widget — reads `?year=&goal=&current=`, falls back to baked defaults |
 | `thermometer_builder.html` | MV Thermometer folder | No-code UI: set numbers, preview, copy embed snippet (holds tokenized widget snapshot) |
+| `README.md` | MV Thermometer folder | Public landing page (repo front page) |
 | `HOSTING.md` | MV Thermometer folder | Hosting + update instructions for the maintainer |
 | `CLAUDE.md` | MV Thermometer folder | Quick-start reference |
 | `CONTEXT.md` | MV Thermometer folder | This file |

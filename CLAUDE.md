@@ -2,7 +2,7 @@
 
 A self-contained HTML fundraising thermometer widget for Mira Vista School's annual campaign. Honeycombs fill with yellow from bottom to top, then confetti bursts and the dollar amount shakes + pulses once.
 
-**Full context lives in [`CONTEXT.md`](./CONTEXT.md)** — read it for workflow, image pipeline, and Squarespace deployment details.
+**Full context lives in [`CONTEXT.md`](./CONTEXT.md)** — read it for the image pipeline, structure, and conventions. **[`README.md`](./README.md)** is the public landing page; **[`HOSTING.md`](./HOSTING.md)** is the maintainer's update guide.
 
 ## The files that matter
 - `fundraising_thermometer.html` — the self-contained widget (~235 KB; background image is base64 PNG). Open in any browser to preview.
@@ -28,6 +28,10 @@ const CURRENT_AMOUNT = _num('current', 32500);
 ```
 
 > If you change the widget itself, regenerate the builder's `<textarea id="tpl">` snapshot (read widget → tokenize the 3 default literals → HTML-escape `& < >` → splice into the textarea).
+
+## Responsive behavior (don't break these)
+- **Auto-height:** the widget `postMessage`s its rendered height to the parent; the builder preview and the embed snippet size the iframe to match (responsive, no scrollbars). Reporter lives at the end of the widget `<script>`.
+- **Container-query text:** `.info-panel` is `container-type: inline-size`; the label / amount / of-goal font sizes use `cqw` with low `clamp()` floors so they scale all the way down on narrow widths.
 
 ## Conventions
 - Never re-use old base64 blobs — always regenerate from `bg_fixed.png` source
