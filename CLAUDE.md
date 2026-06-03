@@ -4,6 +4,9 @@ A self-contained HTML fundraising thermometer widget for Mira Vista School's ann
 
 **Full context lives in [`CONTEXT.md`](./CONTEXT.md)** — read it for the image pipeline, structure, and conventions. **[`README.md`](./README.md)** is the public landing page; **[`HOSTING.md`](./HOSTING.md)** is the maintainer's update guide.
 
+## Git workflow (required)
+Never push to `main` directly. Make changes on a branch, push the branch, and open a PR with `gh pr create`; Jeanette reviews and merges it herself. A GitHub branch ruleset on `main` enforces this (requires a PR; no bypass), so direct pushes will be rejected.
+
 ## The files that matter
 - `fundraising_thermometer.html` — the self-contained widget (~235 KB; background image is base64 PNG). Open in any browser to preview.
 - `thermometer_builder.html` — a no-code UI to set the numbers, preview, and copy an embed snippet. Embeds a tokenized snapshot of the widget in a hidden `<textarea id="tpl">`.
