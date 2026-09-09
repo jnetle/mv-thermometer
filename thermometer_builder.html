@@ -446,7 +446,13 @@
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body { display: flex; justify-content: center; background: transparent; font-family: 'Arial Black', Arial, sans-serif; }
   .widget-container { max-width: 480px; width: 100%; }
-  .thermometer-wrap { position: relative; width: 100%; line-height: 0; }
+  .thermometer-wrap {
+    position: relative; width: 100%; line-height: 0;
+    /* the background PNG is a hard-cornered rectangle, so round + clip here
+       to mirror the info panel's bottom radius */
+    border-radius: 16px 16px 0 0;
+    overflow: hidden;
+  }
   .bg-image { width: 100%; height: auto; display: block; }
   .honeycomb-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
   .honeycomb {
@@ -845,10 +851,12 @@ function launchConfetti() {
             var el = d.getElementById("hc" + i);
             if (el) { el.classList.remove("flash"); el.classList.add("filled"); }
           }
-          // Square off the panel's rounded bottom corners so the exported
-          // image is a clean solid rectangle (no transparent corners).
+          // Square off the rounded corners (panel bottom, wrap top) so the
+          // exported image is a clean solid rectangle (no transparent corners).
           var ip = d.querySelector(".info-panel");
           if (ip) ip.style.borderRadius = "0";
+          var tw = d.querySelector(".thermometer-wrap");
+          if (tw) tw.style.borderRadius = "0";
           // Note: serialize synchronously — don't wait on requestAnimationFrame,
           // which is paused when the tab isn't visible. The class change above
           // doesn't affect layout, so heights are already correct.
