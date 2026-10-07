@@ -19,13 +19,13 @@ Hosted on GitHub Pages, repo `jnetle/mv-thermometer` (public):
 ## Update fundraising progress
 **Preferred (no re-upload):** the widget reads its values from URL query params, so updating is just changing the embed link. Open the builder, set the numbers, **Copy embed code**, and replace the `<iframe>` line on the website. The link looks like:
 ```
-…/fundraising_thermometer.html?year=2025-26&goal=150000&current=32500
+…/fundraising_thermometer.html?year=2026-27&goal=150000&current=32500
 ```
 Missing/blank/non-numeric params fall back to the baked-in defaults below.
 
 **To change the baked-in defaults** (shown when opened with no params), edit these three constants near the top of the `<script>` tag and re-upload to GitHub Pages:
 ```js
-const SCHOOL_YEAR    = _params.get('year') || "2025-26";
+const SCHOOL_YEAR    = _params.get('year') || "2026-27";
 const GOAL_AMOUNT    = _num('goal', 150000);
 const CURRENT_AMOUNT = _num('current', 32500);
 ```
