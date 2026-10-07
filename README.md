@@ -12,7 +12,7 @@ A self-contained fundraising progress widget for Mira Vista School's annual camp
 The widget reads its values from the link itself:
 
 ```
-…/fundraising_thermometer.html?year=2025-26&goal=150000&current=32500
+…/fundraising_thermometer.html?year=2026-27&goal=150000&current=32500
 ```
 
 So to update progress:

@@ -81,7 +81,7 @@ Hosted on GitHub Pages, repo `jnetle/mv-thermometer` (public):
 
 The widget reads its values from URL query params, so numbers are changed via the embed **link**, not by re-uploading:
 ```
-…/fundraising_thermometer.html?year=2025-26&goal=150000&current=32500
+…/fundraising_thermometer.html?year=2026-27&goal=150000&current=32500
 ```
 Missing/blank/non-numeric params fall back to the baked-in default constants. Param read logic lives near the top of the `<script>`: `new URLSearchParams(location.search)` + a `_num(key, dflt)` helper. `SCHOOL_YEAR` is rendered only via `textContent` (no HTML injection); amounts go through `Number()`.
 

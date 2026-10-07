@@ -16,10 +16,10 @@ This project is hosted free on **GitHub Pages**. Two files live in the repo:
 The widget reads its values from the **link itself**, like this:
 
 ```
-https://jnetle.github.io/mv-thermometer/fundraising_thermometer.html?year=2025-26&goal=150000&current=32500
+https://jnetle.github.io/mv-thermometer/fundraising_thermometer.html?year=2026-27&goal=150000&current=32500
 ```
 
-- `year` — the school year text (e.g. `2025-26`)
+- `year` — the school year text (e.g. `2026-27`)
 - `goal` — the goal dollar amount, digits only (e.g. `150000`)
 - `current` — the amount raised so far, digits only (e.g. `32500`)
 
